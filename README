@@ -1,5 +1,5 @@
 CONTENT
-	1.0 What is "acinfo"
+	1.0 What is "libacinfo"
 	1.1 Needed software
 	1.2 Compile
 
@@ -9,14 +9,23 @@ CONTENT
 	3.0 History
 
 
------------- 1.0 What is "acinfo" --------------
+------------ 1.0 What is "libacinfo" --------------
 
+This library implements a generic and easy interface
+for Aqua Computer (AC) USB devices. It was initially developed
+because there was no linux tool to monitor the information
+of an "Aquastream XT".
+It is planned to support more AC devices.
 
 Supported Hardware:
 
 	- Aquastream XT
 	
 	
+TODO:
+	- complete sample application(s)
+	- give small intro in Wiki
+
 ------------ 1.1 Needed software --------------
 libxml2
 
@@ -24,11 +33,14 @@ Ubuntu:
 	apt-get install libxml2 libxml2-dev
 
 ------------ 1.2 Compile --------------
-make
 
+make
+sudo make install
 
 ------------ 2.0 Troubleshooting --------------
 
+Please feel free to contact me.
+Swen.Weiland@gmx.net
 
 ------------ 2.1 Access Rights for USB HID device ---------------
 
@@ -86,4 +98,7 @@ and replug device
 
 15.11.2009
 	Started Network TCP-Support, but realized that Aquasuite 
-	does not support this for Aquaero XT
+	does not support this for other devices than "Aquaero"
+
+05.06.2010
+	Converted my initial application to a generic library.

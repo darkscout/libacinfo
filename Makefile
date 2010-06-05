@@ -8,4 +8,5 @@ clean:
 
 install:
 	cp bin/libacinfo.so /usr/local/lib/
+	cp include/libacinfo.h /usr/local/include/
 	ldconfig
