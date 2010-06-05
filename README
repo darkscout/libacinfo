@@ -1,0 +1,89 @@
+CONTENT
+	1.0 What is "acinfo"
+	1.1 Needed software
+	1.2 Compile
+
+	2.0 Troubleshooting
+	2.1 Access Rights for USB HID device
+
+	3.0 History
+
+
+------------ 1.0 What is "acinfo" --------------
+
+
+Supported Hardware:
+
+	- Aquastream XT
+	
+	
+------------ 1.1 Needed software --------------
+libxml2
+
+Ubuntu:
+	apt-get install libxml2 libxml2-dev
+
+------------ 1.2 Compile --------------
+make
+
+
+------------ 2.0 Troubleshooting --------------
+
+
+------------ 2.1 Access Rights for USB HID device ---------------
+
+This software accesses the Aqua Computer via the HID linux kernel driver.
+So there is no need for external libraries like "LibUSB", which normally can only be used as root.
+After plugging an HID peripheral the operating system creates a device 
+	/dev/usb/hiddevX
+where X is a progressive number. Per default this device is also only read and writeable by root, 
+but there are several sulotions to change that.
+
+You could change the rights to communicate with it by:
+	sudo chmod a+r /dev/usb/hiddev0
+
+Pro: Very easy an fast
+Con: You have to do it after EVERY boot or EVERY time you re-plug the device.
+	
+
+To permanently enable the access to the HID device a user do the following 
+(on Ubuntu and other Debian based distributions, check for others): 
+
+For "Aquastream XT" - as root create a file 
+/etc/udev/rules.d/99-hiddev.rules if you want to enable a user group write:
+
+	KERNEL=="hiddev[0-9]", SUBSYSTEM=="usb", SYSFS{idProduct}=="f0b6", SYSFS{idVendor}=="0c70", GROUP="<group>" 
+
+where <group> is one of the user groups (to get a list type "groups"); select a suitable group and if your user desn't belong to it execute.
+
+	addgroup <user> <group>
+	
+	groupmems -a <user> -g <group> 
+	
+	
+	Or, if you want to enable all users, change reading permissions:	
+	KERNEL=="hiddev[0-9]", SUBSYSTEM=="usb", SYSFS{idProduct}=="f0b6", SYSFS{idVendor}=="0c70", MODE="0664"
+
+	
+	99-hiddev.rules is there as an example file.
+	
+	
+restart udev to apply changes:
+	/etc/init.d/udev reload
+if this does not work:
+	>udevadm control --reload-rules
+and replug device
+
+
+
+------------ 3.0 History -------------------
+
+22.09.2009 
+	First version and prototype based on libUSB
+
+23.09.2009
+	Ported to USB Human Interface Device (HID) kernel API
+
+15.11.2009
+	Started Network TCP-Support, but realized that Aquasuite 
+	does not support this for Aquaero XT

@@ -1,0 +1,11 @@
+In XmlProtocol.DataToXmlHeader
+
+Tippfehler: ServerRecivePort --> ServerReceivePort
+
+Crash
+ 	System.dll!System.Net.Sockets.Socket.RemoteEndPoint.get() + 0x104 Bytes	
+>	network.dll!AquaComputer.Network.ServerClass.OnConnectTS() + 0x116 Bytes	
+
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<DeviceHeader><Data><ProtocolType>1000</ProtocolType><DeviceSerial>99999</DeviceSerial><ProductName>aquaero Revision 4</ProductName><DeviceName>aquaero demo</DeviceName><DeviceHardware>400</DeviceHardware><DeviceOS>201</DeviceOS><DeviceFirmware>421</DeviceFirmware><DeviceAccessName>aquaero Revision 4</DeviceAccessName><ServerName>192.168.0.13</ServerName><ServerSendPort>9999</ServerSendPort><ServerRecivePort>9999</ServerRecivePort></Data></DeviceHeader>
