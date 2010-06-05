@@ -1,3 +1,16 @@
+/*
+ *
+ * You can find the latest source code at:
+ *
+ *   http://github.com/darkscout/libacinfo
+ *
+ * Copyright (c) 2009, 2010 Swen Weiland  <Swen.Weiland@gmx.net>
+ *
+ * See LICENSE.txt in root directory.
+ *
+ *
+ */
+
 #ifndef LIBACINFO_H
 #define LIBACINFO_H 1
 
