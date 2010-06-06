@@ -6,6 +6,7 @@
 
 #include "libacinfo.h"
 #include "basic_convert.h"
+#include "hiddev.h"
 
 #define AQUASTREAMXT_PUMP_ADVANCED_REPORT 1
 #define AQUASTREAMXT_PUMP_EVENT_REPORT 2
@@ -210,9 +211,9 @@ struct report_settings /* report 6 */
 
 
 
-void aquastreamxt_parse_report3(struct ac_device_list_element *device);
-void aquastreamxt_parse_report4(struct ac_device_list_element *device);
-void aquastreamxt_parse_report5(struct ac_device_list_element *device);
-void aquastreamxt_parse_report6(struct ac_device_list_element *device);
+void aquastreamxt_parse_report3(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
+void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aquastreamxt_info *info);
+void aquastreamxt_parse_report5(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
+void aquastreamxt_parse_report6(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
 
 #endif

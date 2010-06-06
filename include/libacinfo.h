@@ -82,7 +82,6 @@ struct aquastreamxt_settings
         u_int8_t i2cAddress; 
 
         u_int8_t i2cSetting_aquabusEnable:1; 
-        u_int8_t i2cSetting_dummy:7; 
         
 	u_int8_t pumpMode_dearation:1;
 	u_int8_t pumpMode_autoPumpMaxFreq:1;
@@ -97,7 +96,7 @@ struct aquastreamxt_settings
 	u_int8_t measureFanEdges; 
 	u_int8_t measureFlowEdges; 
 	
-	u_int16_t pumpFrequency; 
+	double pumpFrequency; 
 	u_int32_t frequencyResetCycle; /* int32((frequencyResetCycle / 0x113)) */
 	
 	u_int8_t alarm_sensor0:1; 
@@ -114,9 +113,8 @@ struct aquastreamxt_settings
 	u_int8_t tachoMode_linkPump:1; 
 	u_int8_t tachoMode_linkStatic:1; 
 	u_int8_t tachoMode_linkAlarmInterrupt:1; 
-	u_int8_t tachoMode_dummy:3;
 	
-	u_int16_t tachoFrequency; 
+	double tachoFrequency; 
 	
 	u_int32_t flowAlarmValue; 
 	u_int16_t sensorAlarmTemperature[2]; 
@@ -125,26 +123,26 @@ struct aquastreamxt_settings
 	u_int8_t fanMode_auto:1; 
 	u_int8_t fanMode_holdMinPower:1; 
 		
-	u_int8_t fanManualPower; 
+	double fanManualPower; 
 	
-	u_int16_t controllerHysterese; /* use convert2temp */
+	double controllerHysterese; 
 	u_int8_t controllerSensor; 
-	u_int16_t controllerSetTemp;  /* use convert2temp */
+	double controllerSetTemp;  
 	u_int16_t controllerP; 
 	u_int16_t controllerI; 
 	u_int16_t controllerD; 
 	
-	u_int16_t sensorMinTemperature; 
-	u_int16_t sensorMaxTemperature; 
+	double sensorMinTemperature; 
+	double sensorMaxTemperature; 
 	
-	u_int8_t fanMinimumPower; 
-	u_int8_t fanMaximumPower; 
+	double fanMinimumPower; 
+	double fanMaximumPower; 
 	
 	u_int8_t ledSettings; 
 	u_int8_t aquabusTimeout; 
 	
-	u_int16_t minPumpFreqency; 
-	u_int16_t maxPumpFreqency; 
+	double minPumpFreqency; 
+	double maxPumpFreqency; 
 
 	/* report 5 */
         u_int8_t advancedPumpKey[6];
@@ -167,35 +165,23 @@ struct aquastreamxt_info
 	double fan_rpm; 
 	double fan_voltage; 
 	double fan_voltage_measured;
-	
 	double fan_power; /* percent */
-	double pump_power; /* percent TODO */
+	
+	double pump_power; /* Watt TODO */
 
 	double flow;
+	double vdd; /* volt */
 	
 	double controller_I;
 	double controller_P;
 	double controller_D;
 	double controller_Output;
 	
-	double frequency;
-	double frequency_max;
+	double pumpFreqency;
+	double pumpFreqencyMax;
 	
-        /*
-         *	rawSensorData[0] = 
-         *	rawSensorData[1] = 
-         *	rawSensorData[2] = 
-         *	rawSensorData[3] = FAN Voltage
-         
-         *	get_pumpPower = ((this->GetPumpCurrent(this->m_rawSensorData[5]) / 1000) * this->GetVDD(this->m_rawSensorData[4]))
-         
-         *	rawSensorData[4] = (VDD)
-         *	rawSensorData[5] = (pumpCurrent) this->GetPumpCurrent(this->m_rawSensorData[5]);
-         */
-        
 	u_int8_t alarm_sensor0:1;
 	u_int8_t alarm_sensor1:1;
-	u_int8_t alarm_dummy1:1;
 	u_int8_t alarm_fan:1;
 	u_int8_t alarm_flow:1;
 
@@ -220,9 +206,9 @@ int acinfo_deinit(struct libacinfo_handle *handle);
 
 
 
-struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device);
-struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device);
+struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_info *info);
 
-int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *values);
+struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
+int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
 
 #endif

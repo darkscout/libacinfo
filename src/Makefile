@@ -4,7 +4,7 @@ CFLAGS_LIB = -fPIC -O2 -Wall -g -D_REENTRANT -I /usr/include/libxml2/ -I ../incl
 LDFLAGS_LIB = 
 
 OBJ_LIB = libacinfo.o debug.o hiddev.o basic_convert.o \
-	aquastreamxt.o aquastreamxt_interface.o 
+	aquastreamxt.o
 
 
 CFLAGS = -O2 -Wall -g -D_REENTRANT -I /usr/include/libxml2/ -I ../include/ -I ./

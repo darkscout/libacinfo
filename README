@@ -12,10 +12,19 @@ CONTENT
 ------------ 1.0 What is "libacinfo" --------------
 
 This library implements a generic and easy interface
-for Aqua Computer (AC) USB devices. It was initially developed
-because there was no linux tool to monitor the information
-of an "Aquastream XT".
-It is planned to support more AC devices.
+for Aqua Computer (AC) USB devices. The AC devices are 
+for water-cooled computer systems and are manufactured by the 
+German company 'Aqua Computer' (http://www.aqua-computer.de).
+The first version of my tool was initially developed by me,
+because there was no linux tool to monitor the information of an "Aquastream XT".
+Mandatory information was gathered from the 'Aquasuite' Windows(TM) software.
+
+It is planned to support more AC devices, especially other USB devices
+which use the Human Interface Device (HID) class as base.
+
+To get an impression of the design, take a look at 'libacinfo.png'.
+
+NOTE: The API is unstable. Maybe I missed some functionality.
 
 Supported Hardware:
 
@@ -23,8 +32,11 @@ Supported Hardware:
 	
 	
 TODO:
+	- add functions to write settings
+	- extend API
 	- complete sample application(s)
 	- give small intro in Wiki
+	- Aquasuite Network Support ?! (maybe)
 
 ------------ 1.1 Needed software --------------
 libxml2
@@ -34,8 +46,14 @@ Ubuntu:
 
 ------------ 1.2 Compile --------------
 
+Simply type:
 make
+
+Now, all executables and the lib should be in the bin/ directory.
+To copy the binaries to system do as follows(on debian based):
+
 sudo make install
+
 
 ------------ 2.0 Troubleshooting --------------
 
@@ -102,3 +120,6 @@ and replug device
 
 05.06.2010
 	Converted my initial application to a generic library.
+
+06.06.2010
+	Release in the Aqua Computer Forum
