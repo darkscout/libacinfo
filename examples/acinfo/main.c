@@ -16,10 +16,10 @@ void print_info(struct aquastreamxt_info *info)
 	printf("Fan Voltage: %2.1fV\n", info->fan_voltage);	 
 	printf("Fan Voltage(measured): %2.1fV\n", info->fan_voltage_measured);	 
 
-	printf("\nController Out: %3.3f\%\n", info->controller_Output);	
-	printf("I Controller: %3.3f\%\n", info->controller_I);	 
-	printf("P Controller: %3.3f\%\n", info->controller_P);	 
-	printf("D Controller: %3.3f\%\n", info->controller_D);	 
+	printf("\nController Out: %3.3f%%\n", info->controller_Output);	
+	printf("I Controller: %3.3f%%\n", info->controller_I);	 
+	printf("P Controller: %3.3f%%\n", info->controller_P);	 
+	printf("D Controller: %3.3f%%\n", info->controller_D);	 
 
 	printf("\nPump Frequency: %2.1f\n", info->pumpFreqency);	 
 	printf("Pump Frequency (MAX): %2.1f\n", info->pumpFreqencyMax);	 
@@ -143,9 +143,9 @@ void print_settings(struct aquastreamxt_settings *settings)
 
 	printf("\nFan Mode Manual: %d\n", settings->fanMode_manual);
 	printf("Fan Mode Auto: %d\n", settings->fanMode_auto);
-	printf("Fan Mode Hold Min Power: %d\%\n", settings->fanMode_holdMinPower);
+	printf("Fan Mode Hold Min Power: %d%%\n", settings->fanMode_holdMinPower);
 
-	printf("Fan Manual Power Value: %3.1f\%\n", settings->fanManualPower);
+	printf("Fan Manual Power Value: %3.1f%%\n", settings->fanManualPower);
 
 	printf("\nController Hysterese: %4.1f\n", settings->controllerHysterese);
 	printf("Controller Sensor: %d\n", settings->controllerSensor);
@@ -157,8 +157,8 @@ void print_settings(struct aquastreamxt_settings *settings)
 	printf("\nSensor Min Temp: %3.1f°C\n", settings->sensorMinTemperature);
 	printf("Sensor Max Temp: %3.1f°C\n", settings->sensorMaxTemperature);
 
-	printf("\nFan Min Power: %3.1f\%\n", settings->fanMinimumPower);
-	printf("Fan Max Power: %3.1f\%\n", settings->fanMaximumPower);
+	printf("\nFan Min Power: %3.1f%%\n", settings->fanMinimumPower);
+	printf("Fan Max Power: %3.1f%%\n", settings->fanMaximumPower);
 
 	printf("\nPump Min Frequency: %3.1f\n", settings->minPumpFreqency);
 	printf("Pump Max Freqeuncy: %3.1f\n", settings->maxPumpFreqency);
@@ -187,27 +187,27 @@ int main(int argc, char **argv)
 
 	device = libhandle.device_list_head;
 		
-    	while (device != NULL)
-        {		
+	while (device != NULL)
+	{		
 		if (acinfo_read_settings_aquastreamXT(device, &settings) == NULL)
 		{
 			fprintf(stderr, "Error reading settings\n");
 			device = device->next;
 			continue;
 		}
-
-		if (acinfo_read_info_aquastreamXT(device, &info) == NULL)
+		
+		if (acinfo_read_info_aquastreamXT(device, &settings, &info) == NULL)
 		{
 			fprintf(stderr, "Error reading info\n");
 			device = device->next;
 			continue;
 		}
-
-
-		 print_settings(&settings);		
-		 print_info(&info);
 		
-
+		
+		print_settings(&settings);		
+		print_info(&info);
+		
+		
 		device = device->next;
 	}
 	

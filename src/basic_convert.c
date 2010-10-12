@@ -22,7 +22,21 @@ double convert2temp(u_int16_t value)
 	return ret;
 }
 
-double convert2flow(u_int32_t value)
+/*
+public double GetFlow(long rawFlow, int measureEdges, int calImpulse)
+{
+    double num2 = 46875.0;
+    num2 *= 3600.0;
+    double num4 = (((double) measureEdges) / 2.0) / ((double) calImpulse);
+    double num3 = num2 / (((double) rawFlow) / num4);
+    if (rawFlow >= 0x927c0L)
+    {
+        num3 = 0.0;
+    }
+    return num3;
+}
+*/
+double convert2flow(u_int32_t value, int edges/*report 6*/, int calibrationImpulses)
 {
 	if (value >= 0x927c0)
 	{
@@ -31,14 +45,14 @@ double convert2flow(u_int32_t value)
 
 	double ret = value;
 	
-	ret = (double)(AQUASTREAMXT_EDGES_FLOW / 2) / (double)AQUASTREAMXT_IMP_FLOW;
+	ret = (double)((double)edges / 2.0) / (double)calibrationImpulses;
 	
 	ret = (double)(46875 * 3600) / ((double)value / ret);
 	
 	return ret;
 }
 
-double convert2fanrpm(u_int32_t value)
+double convert2fanrpm(u_int32_t value, int edges)
 {
 	if (value >= 0x493e0)
 	{
@@ -47,7 +61,7 @@ double convert2fanrpm(u_int32_t value)
 
 	double ret = value;
 	
-	ret /= (AQUASTREAMXT_EDGES_FAN / 4);
+	ret /= ((double)edges / 4);
 	
 	ret = (46875 * 60) / ret;
 

@@ -130,23 +130,26 @@ int acinfo_deinit(struct libacinfo_handle *handle)
 
 
 
-struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_info *info)
+struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings, struct aquastreamxt_info *info)
 {
-        aquastreamxt_parse_report4(device, info);
+	aquastreamxt_parse_report4(device, settings, info);
 
 	return info;
 }
 
-struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings)
+struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings)
 {
-        aquastreamxt_parse_report3(device, settings);
-        aquastreamxt_parse_report5(device, settings);
-        aquastreamxt_parse_report6(device, settings);
+	aquastreamxt_parse_report3(device, settings);
+	aquastreamxt_parse_report5(device, settings);
+	aquastreamxt_parse_report6(device, settings);
 
 	return settings;
 }
 
-int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings)
+int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings)
 {
 	return 0;
 }

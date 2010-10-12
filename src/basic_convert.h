@@ -3,13 +3,13 @@
 
 #include <sys/types.h>
 
-#define AQUASTREAMXT_EDGES_FAN 8
-#define AQUASTREAMXT_EDGES_FLOW 8
-#define AQUASTREAMXT_IMP_FLOW 0x100
+//#define AQUASTREAMXT_EDGES_FAN 8
+//#define AQUASTREAMXT_EDGES_FLOW 8
+#define AQUASTREAMXT_IMP_FLOW 256 // 0x100
 
 double convert2temp(u_int16_t value);
-double convert2flow(u_int32_t value);
-double convert2fanrpm(u_int32_t value);
+double convert2flow(u_int32_t value, int edges, int calibrationImpulses);
+double convert2fanrpm(u_int32_t value, int edges);
 
 double convert2pump_frequency(u_int32_t value);
 double convert2frequency_limiter(u_int32_t value);

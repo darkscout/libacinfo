@@ -15,9 +15,6 @@
 #define AQUASTREAMXT_KEYS_REPORT 5
 #define AQUASTREAMXT_SETTINGS_REPORT 6
 
-#define AQUASTREAMXT_EDGES_FAN 8
-#define AQUASTREAMXT_EDGES_FLOW 8
-#define AQUASTREAMXT_IMP_FLOW 0x100
 /*
 const Double __gc* SCALE12V = 61;
 const Double __gc* SCALEFANOUT = 63;
@@ -67,23 +64,23 @@ struct report_senosr_settings_data /* report 3 */
 
 struct report_pump_data /* report 4 */
 {
-        u_int16_t rawSensorData[6]; /* littleEndian */
-        /*
-         *	rawSensorData[0] = 
-         *	rawSensorData[1] = 
-         *	rawSensorData[2] = 
-         *	rawSensorData[3] = FAN Voltage
-         
-         *	get_pumpPower = ((this->GetPumpCurrent(this->m_rawSensorData[5]) / 1000) * this->GetVDD(this->m_rawSensorData[4]))
-         
-         *	rawSensorData[4] = (VDD)
-         *	rawSensorData[5] = (pumpCurrent) this->GetPumpCurrent(this->m_rawSensorData[5]);
-         */
-        
-        u_int16_t temperature_raw[3]; /* littleEndian double(value / 100)  */
-                
-        u_int16_t frequency; /* littleEndian */        
-        u_int16_t frequency_max; /* littleEndian */        
+	u_int16_t rawSensorData[6]; /* littleEndian */
+	/*
+	 *	rawSensorData[0] = 
+	 *	rawSensorData[1] = 
+	 *	rawSensorData[2] = 
+	 *	rawSensorData[3] = FAN Voltage
+	 
+	 *	get_pumpPower = ((this->GetPumpCurrent(this->m_rawSensorData[5]) / 1000) * this->GetVDD(this->m_rawSensorData[4]))
+	 
+	 *	rawSensorData[4] = (VDD)
+	 *	rawSensorData[5] = (pumpCurrent) this->GetPumpCurrent(this->m_rawSensorData[5]);
+	 */
+	
+	u_int16_t temperature_raw[3]; /* littleEndian double(value / 100)  */
+	        
+	u_int16_t frequency; /* littleEndian */        
+	u_int16_t frequency_max; /* littleEndian */        
 
 	u_int32_t flow; /* littleEndian */        
 	u_int32_t fanRpm; /* littleEndian */        
@@ -107,24 +104,24 @@ struct report_pump_data /* report 4 */
 	int32_t controllerP; /* littleEndian 	double(value / 167772)  */  
 	int32_t controllerD; /* littleEndian 	double(value / 167772) */
 
-        u_int16_t firmware; /* littleEndian */        
-        u_int16_t bootloader; /* littleEndian */        
-        u_int16_t hardware; /* littleEndian */        
-        	
-        u_int8_t dummy[2];
-        	
-        u_int16_t serial; /* littleEndian */        
-        	
-        u_int8_t publicKey[6]; /* littleEndian */        
+	u_int16_t firmware; /* littleEndian */        
+	u_int16_t bootloader; /* littleEndian */        
+	u_int16_t hardware; /* littleEndian */        
+		
+	u_int8_t dummy[2];
+		
+	u_int16_t serial; /* littleEndian */        
+		
+	u_int8_t publicKey[6]; /* littleEndian */        
         
 } __attribute__((__packed__));
 
 
 struct report_keys /* report 5 */
 {
-        u_int8_t advancedPumpKey[6];
-        u_int8_t fanAmpKey[6];
-        u_int8_t fanControllerKey[6];
+	u_int8_t advancedPumpKey[6];
+	u_int8_t fanAmpKey[6];
+	u_int8_t fanControllerKey[6];
 } __attribute__((__packed__));
 
 
@@ -139,10 +136,10 @@ enum tSensorBridge
 
 struct report_settings /* report 6 */
 {
-        u_int8_t i2cAddress; 
-
-        u_int8_t i2cSetting_aquabusEnable:1; 
-        u_int8_t i2cSetting_dummy:7; 
+	u_int8_t i2cAddress; 
+	
+	u_int8_t i2cSetting_aquabusEnable:1; 
+	u_int8_t i2cSetting_dummy:7; 
         
 	u_int8_t pumpMode_dearation:1;
 	u_int8_t pumpMode_autoPumpMaxFreq:1;
@@ -212,7 +209,7 @@ struct report_settings /* report 6 */
 
 
 void aquastreamxt_parse_report3(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
-void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aquastreamxt_info *info);
+void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aquastreamxt_settings *settings, struct aquastreamxt_info *info);
 void aquastreamxt_parse_report5(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
 void aquastreamxt_parse_report6(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
 

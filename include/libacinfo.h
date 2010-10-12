@@ -79,9 +79,9 @@ struct libacinfo_handle
 struct aquastreamxt_settings
 {
 	/* report 6 */
-        u_int8_t i2cAddress; 
+  u_int8_t i2cAddress; 
 
-        u_int8_t i2cSetting_aquabusEnable:1; 
+  u_int8_t i2cSetting_aquabusEnable:1; 
         
 	u_int8_t pumpMode_dearation:1;
 	u_int8_t pumpMode_autoPumpMaxFreq:1;
@@ -145,15 +145,15 @@ struct aquastreamxt_settings
 	double maxPumpFreqency; 
 
 	/* report 5 */
-        u_int8_t advancedPumpKey[6];
-        u_int8_t fanAmpKey[6];
-        u_int8_t fanControllerKey[6];
+	u_int8_t advancedPumpKey[6];
+	u_int8_t fanAmpKey[6];
+	u_int8_t fanControllerKey[6];
 
 	/* AD values - 5 °C steps report 3 */
-        u_int16_t sensorFanCurve[21];
-        u_int16_t sensorExternCurve[21];
-        u_int16_t sensorWaterCurve[21];
-        u_int16_t temperatureMatchCurve[21];
+	u_int16_t sensorFanCurve[21];
+	u_int16_t sensorExternCurve[21];
+	u_int16_t sensorWaterCurve[21];
+	u_int16_t temperatureMatchCurve[21];
 };
 
 struct aquastreamxt_info
@@ -189,13 +189,13 @@ struct aquastreamxt_info
 	u_int8_t mode_aquastreamModeAdvanced:1;
 	u_int8_t mode_aquastreamModeUltra:1;
   
-        u_int16_t firmware; /* littleEndian */        
-        u_int16_t bootloader; /* littleEndian */        
-        u_int16_t hardware; /* littleEndian */        
-        	
-        u_int16_t serial; /* littleEndian */        
-        	
-        u_int8_t publicKey[6]; /* littleEndian */        
+	u_int16_t firmware; /* littleEndian */        
+	u_int16_t bootloader; /* littleEndian */        
+	u_int16_t hardware; /* littleEndian */        
+		
+	u_int16_t serial; /* littleEndian */        
+		
+	u_int8_t publicKey[6]; /* littleEndian */        
 };
 
 
@@ -206,9 +206,13 @@ int acinfo_deinit(struct libacinfo_handle *handle);
 
 
 
-struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_info *info);
+struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings);
+int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings);
 
-struct aquastreamxt_settings* acinfo_read_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
-int acinfo_write_settings_aquastreamXT(struct ac_device_list_element *device, struct aquastreamxt_settings *settings);
+/* call acinfo_read_settings_aquastreamXT before acinfo_read_info_aquastreamXT (to get sensor calibration and correct values */
+struct aquastreamxt_info* acinfo_read_info_aquastreamXT(struct ac_device_list_element *device, 
+	struct aquastreamxt_settings *settings, struct aquastreamxt_info *info);
 
 #endif

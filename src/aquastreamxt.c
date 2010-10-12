@@ -35,22 +35,22 @@ void aquastreamxt_parse_report3(struct ac_device_list_element *device, struct aq
 		AQUASTREAMXT_SENSOR_SETTINGS_DATA_REPORT, 
 		buffer, REPORT_INPUT_LEN);
         
-        if (bytes <= 0)
-        {
+	if (bytes <= 0)
+	{
 		free(buffer);
-        	return;
-        }
+		return;
+	}
 
 	/* copy the received values to presentation structure */       	
-       	memcpy(settings->sensorFanCurve, r->sensorFanCurve, 21*2 /* 21 u_int16_t */);
-       	memcpy(settings->sensorExternCurve, r->sensorExternCurve, 21*2 /* 21 u_int16_t */);
-       	memcpy(settings->sensorWaterCurve, r->sensorWaterCurve, 21*2 /* 21 u_int16_t */);
-       	memcpy(settings->temperatureMatchCurve, r->temperatureMatchCurve, 21*2 /* 21 u_int16_t */);
+	memcpy(settings->sensorFanCurve, r->sensorFanCurve, 21*2 /* 21 u_int16_t */);
+	memcpy(settings->sensorExternCurve, r->sensorExternCurve, 21*2 /* 21 u_int16_t */);
+	memcpy(settings->sensorWaterCurve, r->sensorWaterCurve, 21*2 /* 21 u_int16_t */);
+	memcpy(settings->temperatureMatchCurve, r->temperatureMatchCurve, 21*2 /* 21 u_int16_t */);
        	
 	free(buffer);
 }
 
-void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aquastreamxt_info *info)
+void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aquastreamxt_settings *settings, struct aquastreamxt_info *info)
 {	
 	unsigned char *buffer = (unsigned char*)malloc(REPORT_INPUT_LEN);
 	struct report_pump_data *r = (struct report_pump_data*) buffer;
@@ -60,20 +60,19 @@ void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aq
 		AQUASTREAMXT_PUMP_DATA_TRANSFER_REPORT, 
 		buffer, REPORT_INPUT_LEN);
         
-        if (bytes <= 0)
-        {
+	if (bytes <= 0)
+	{
 		free(buffer);
-        	return;
-        }
+		return;
+	}
 
-       	
-       	info->temp_pump = convert2temp(r->temperature_raw[REPORT4_TEMP_PUMP]);
-       	info->temp_extern = convert2temp(r->temperature_raw[REPORT4_TEMP_EXTERN]);
-       	info->temp_water = convert2temp(r->temperature_raw[REPORT4_TEMP_WATER]);
-       	
-       	info->fan_rpm = convert2fanrpm(r->fanRpm);
-       	info->fan_voltage = convert2VDD(r->rawSensorData[4]) * (convert2scalepercent(r->fanPower) / 100);
-       	info->fan_voltage_measured = convert2FanVoltage(r->rawSensorData[3]);
+	info->temp_pump = convert2temp(r->temperature_raw[REPORT4_TEMP_PUMP]);
+	info->temp_extern = convert2temp(r->temperature_raw[REPORT4_TEMP_EXTERN]);
+	info->temp_water = convert2temp(r->temperature_raw[REPORT4_TEMP_WATER]);
+	
+	info->fan_rpm = convert2fanrpm(r->fanRpm, settings->measureFanEdges);
+	info->fan_voltage = convert2VDD(r->rawSensorData[4]) * (convert2scalepercent(r->fanPower) / 100);
+	info->fan_voltage_measured = convert2FanVoltage(r->rawSensorData[3]);
        	
 	info->controller_I = aquastreamxt2controllerOutScale(r->controllerI);
 	info->controller_P = aquastreamxt2controllerOutScale(r->controllerP);
@@ -81,9 +80,9 @@ void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aq
 	info->controller_Output = aquastreamxt2controllerOutScale(r->controllerOut);
 
 
-	info->flow = convert2flow(r->flow);
+	info->flow = convert2flow(r->flow, settings->measureFlowEdges/*report 6*/, AQUASTREAMXT_IMP_FLOW);
 	info->pumpFreqency = convert2pump_frequency(r->frequency);
-	info->pumpFreqencyMax = convert2fanrpm(r->frequency_max);
+	info->pumpFreqencyMax = convert2fanrpm(r->frequency_max, settings->measureFanEdges);
 	
 	info->vdd = convert2VDD(r->rawSensorData[4]);
 
@@ -109,7 +108,7 @@ void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aq
 
 	info->serial = r->serial;
 	
-       	memcpy(info->publicKey, r->publicKey, 6 /*bytes*/);
+	memcpy(info->publicKey, r->publicKey, 6 /*bytes*/);
 	
 	free(buffer);
 }        	
@@ -124,16 +123,16 @@ void aquastreamxt_parse_report5(struct ac_device_list_element *device, struct aq
 		AQUASTREAMXT_KEYS_REPORT, 
 		buffer, REPORT_INPUT_LEN);
         
-        if (bytes <= 0)
-        {
-        	free(buffer);
-        	return;
-        }
+	if (bytes <= 0)
+	{
+		free(buffer);
+		return;
+	}
 
 	/* copy the received values to presentation structure */       	
-       	memcpy(settings->advancedPumpKey, r->advancedPumpKey, 6 /*bytes*/);
-       	memcpy(settings->fanAmpKey, r->fanAmpKey, 6 /*bytes*/);
-       	memcpy(settings->fanControllerKey, r->fanControllerKey, 6 /*bytes*/);
+	memcpy(settings->advancedPumpKey, r->advancedPumpKey, 6 /*bytes*/);
+	memcpy(settings->fanAmpKey, r->fanAmpKey, 6 /*bytes*/);
+	memcpy(settings->fanControllerKey, r->fanControllerKey, 6 /*bytes*/);
        	
 	free(buffer);
 }
@@ -148,14 +147,14 @@ void aquastreamxt_parse_report6(struct ac_device_list_element *device, struct aq
 		AQUASTREAMXT_SETTINGS_REPORT, 
 		buffer, REPORT_INPUT_LEN);
         
-        if (bytes <= 0)
-        {
+	if (bytes <= 0)
+	{
 		free(buffer);
-        	return;
-        }
+		return;
+	}
 
-        settings->i2cAddress = r->i2cAddress;
-        settings->i2cSetting_aquabusEnable = r->i2cSetting_aquabusEnable;
+	settings->i2cAddress = r->i2cAddress;
+	settings->i2cSetting_aquabusEnable = r->i2cSetting_aquabusEnable;
         
 	settings->pumpMode_dearation = r->pumpMode_dearation;
 	settings->pumpMode_autoPumpMaxFreq = r->pumpMode_autoPumpMaxFreq;
