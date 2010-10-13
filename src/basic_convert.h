@@ -3,9 +3,7 @@
 
 #include <sys/types.h>
 
-//#define AQUASTREAMXT_EDGES_FAN 8
-//#define AQUASTREAMXT_EDGES_FLOW 8
-#define AQUASTREAMXT_IMP_FLOW 256 // 0x100
+#include "config.h"
 
 double convert2temp(u_int16_t value);
 double convert2flow(u_int32_t value, int edges, int calibrationImpulses);

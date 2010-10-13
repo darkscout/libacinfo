@@ -80,7 +80,9 @@ void aquastreamxt_parse_report4(struct ac_device_list_element *device, struct aq
 	info->controller_Output = aquastreamxt2controllerOutScale(r->controllerOut);
 
 
-	info->flow = convert2flow(r->flow, settings->measureFlowEdges/*report 6*/, AQUASTREAMXT_IMP_FLOW);
+	info->flow = convert2flow(r->flow, settings->measureFlowEdges /* read by report 6 */, 
+		AQUASTREAMXT_SENSOR_FLOW_IMPULSE_PER_LITER);
+		
 	info->pumpFreqency = convert2pump_frequency(r->frequency);
 	info->pumpFreqencyMax = convert2fanrpm(r->frequency_max, settings->measureFanEdges);
 	

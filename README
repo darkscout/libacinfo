@@ -44,7 +44,11 @@ libxml2
 Ubuntu:
 	apt-get install libxml2 libxml2-dev
 
+Note: needed for unfinished network support
+
 ------------ 1.2 Compile --------------
+
+Note before compile: If you have a water flow sensor you need to edit src/config.h
 
 Simply type:
 make
@@ -122,4 +126,10 @@ and replug device
 	Converted my initial application to a generic library.
 
 06.06.2010
-	Release in the Aqua Computer Forum
+	Release in the Aqua Computer Forum and uploaded to 
+	http://github.com/darkscout/libacinfo
+
+13.10.2010
+	Bugfix release to fix flow sensor (Thanks to Alexander)
+	Changed Impulse per Liter default value to 169.
+

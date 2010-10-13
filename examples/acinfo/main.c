@@ -8,9 +8,9 @@ void print_info(struct aquastreamxt_info *info)
 {
 	int i;
 	
-	printf("Pump Temp : %2.1f°C\n", info->temp_pump);
-	printf("Extern Sensor Temp : %2.1f°C\n", info->temp_extern);
-	printf("Water Temp : %2.1f°C\n", info->temp_water);
+	printf("Pump Temp : %2.1f Celsius\n", info->temp_pump);
+	printf("Extern Sensor Temp : %2.1f Celsius\n", info->temp_extern);
+	printf("Water Temp : %2.1f Celsius\n", info->temp_water);
 		
 	printf("\nFan RPM: %2.0f\n", info->fan_rpm);	 	
 	printf("Fan Voltage: %2.1fV\n", info->fan_voltage);	 
@@ -130,8 +130,8 @@ void print_settings(struct aquastreamxt_settings *settings)
 	printf("Alarm Fan: %d\n", settings->alarm_fan);
 	printf("Alarm Flow: %d\n", settings->alarm_flow);
 	printf("Alarm Fan Short: %d\n", settings->alarm_fanShort);
-	printf("Alarm Over 90°C: %d\n", settings->alarm_fanOverTemp90);
-	printf("Alarm Over 70°C: %d\n", settings->alarm_fanOverTemp70);
+	printf("Alarm Over 90 Celsius: %d\n", settings->alarm_fanOverTemp90);
+	printf("Alarm Over 70 Celsius: %d\n", settings->alarm_fanOverTemp70);
 
 	printf("\nTacho-Link Fan: %d\n", settings->tachoMode_linkFan);
 	printf("Tacho-Link Flow: %d\n", settings->tachoMode_linkFlow);
@@ -149,13 +149,13 @@ void print_settings(struct aquastreamxt_settings *settings)
 
 	printf("\nController Hysterese: %4.1f\n", settings->controllerHysterese);
 	printf("Controller Sensor: %d\n", settings->controllerSensor);
-	printf("Controller Set Temp: %3.1f°C\n", settings->controllerSetTemp);
+	printf("Controller Set Temp: %3.1f Celsius\n", settings->controllerSetTemp);
 	printf("Controller P: %d\n", settings->controllerP);
 	printf("Controller I: %d\n", settings->controllerI);
 	printf("Controller D: %d\n", settings->controllerD);
 
-	printf("\nSensor Min Temp: %3.1f°C\n", settings->sensorMinTemperature);
-	printf("Sensor Max Temp: %3.1f°C\n", settings->sensorMaxTemperature);
+	printf("\nSensor Min Temp: %3.1f Celsius\n", settings->sensorMinTemperature);
+	printf("Sensor Max Temp: %3.1f Celsius\n", settings->sensorMaxTemperature);
 
 	printf("\nFan Min Power: %3.1f%%\n", settings->fanMinimumPower);
 	printf("Fan Max Power: %3.1f%%\n", settings->fanMaximumPower);
