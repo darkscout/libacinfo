@@ -1,4 +1,5 @@
 all:
+	mkdir -p ./bin/
 	make -C src libacinfo
 	make -C examples/acinfo acinfo
 

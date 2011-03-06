@@ -41,20 +41,20 @@ enum tAquastreamXtUsbEvent
 	saveEeData = 5
 };
 
-/* Write only ?! */
+/* Write only ?! - for tAquastreamXtUsbEvent */
 struct report_pump_event /* report 2 */
 {
-        u_int16_t event;
+	u_int16_t event;
 } __attribute__((__packed__));
 
 
 struct report_senosr_settings_data /* report 3 */
 {
 	/* AD values - 5 °C steps */
-        u_int16_t sensorFanCurve[21];
-        u_int16_t sensorExternCurve[21];
-        u_int16_t sensorWaterCurve[21];
-        u_int16_t temperatureMatchCurve[21];
+	u_int16_t sensorFanCurve[21];
+	u_int16_t sensorExternCurve[21];
+	u_int16_t sensorWaterCurve[21];
+	u_int16_t temperatureMatchCurve[21];
 } __attribute__((__packed__));
 
 
@@ -72,6 +72,11 @@ struct report_pump_data /* report 4 */
 	 *	rawSensorData[3] = FAN Voltage
 	 
 	 *	get_pumpPower = ((this->GetPumpCurrent(this->m_rawSensorData[5]) / 1000) * this->GetVDD(this->m_rawSensorData[4]))
+	 
+		double GetPumpCurrent(int rawCurrent)
+		{
+			return (rawCurrent * 1.6);
+		}	 
 	 
 	 *	rawSensorData[4] = (VDD)
 	 *	rawSensorData[5] = (pumpCurrent) this->GetPumpCurrent(this->m_rawSensorData[5]);
